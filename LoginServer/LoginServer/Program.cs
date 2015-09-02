@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 
+using LoginServer.Network;
+
 namespace LoginServer
 {
     class Program
@@ -22,7 +24,7 @@ namespace LoginServer
                 Log.WriteError("Cannot bound Tcp Socket on the port 15010");
             }
 
-            Packets_Structure.PacketTable.Load();
+            PacketTable.Load();
 
             Console.ReadLine();
         }

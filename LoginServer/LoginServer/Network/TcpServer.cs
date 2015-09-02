@@ -4,9 +4,9 @@ using System.Text;
 using System.Net;
 using System.Net.Sockets;
 
-namespace LoginServer
+namespace LoginServer.Network
 {
-    class TcpServer
+    public class TcpServer
     {
         private Socket socket;
         public TcpServer(ushort port)
@@ -16,7 +16,7 @@ namespace LoginServer
                 this.socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 this.socket.Bind(new IPEndPoint(IPAddress.Any, port));
                 this.socket.Listen(0);
-                this.socket.BeginAccept(this.Accept, socket);
+                this.socket.BeginAccept(new AsyncCallback(this.Accept), null);
             }
             catch { }
 
@@ -28,15 +28,20 @@ namespace LoginServer
 
         public bool HasInit { get { return this.socket.IsBound; } }
 
-        private void Accept(IAsyncResult callback)
+        private void Accept(IAsyncResult iAr)
         {
-            Socket remoteSocket = socket.EndAccept(callback);
-
-            if(remoteSocket.IsBound)
+            Socket s = null;
+            try
             {
-                User usr = new User(remoteSocket);
-                
-                Log.WriteLine("New connection from " + remoteSocket.RemoteEndPoint.ToString());
+                s = socket.EndAccept(iAr);
+                Log.WriteLine("New connection from " + s.RemoteEndPoint.ToString());
+                User usr = new User(s);                
+            }
+            catch { try { s.Close(); } catch { } }
+
+            if (socket != null)
+            {
+                socket.BeginAccept(new AsyncCallback(this.Accept), null);
             }
         }
     }
