@@ -26,7 +26,7 @@ namespace LoginServer.Network
             }
         }
 
-        public bool HasInit { get { return this.socket.IsBound; } }
+        public bool HasInit { get { return this.socket != null && this.socket.IsBound; } } 
 
         private void Accept(IAsyncResult iAr)
         {
@@ -37,7 +37,7 @@ namespace LoginServer.Network
                 Log.WriteLine("New connection from " + s.RemoteEndPoint.ToString());
                 User usr = new User(s);                
             }
-            catch { try { s.Close(); } catch { } }
+            catch { try { s.Close(); } catch { } } // Force close the socket when an exception is triggered here to avoid ghost sockets.
 
             if (socket != null)
             {
