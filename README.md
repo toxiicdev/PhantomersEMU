@@ -2,10 +2,7 @@
 
 PhantomersEMU is a free open-source emulator developed for learning purposes.
 
-
-
-
-Developed by:
+Conritbutors:
 
 toxiicdev (ToXiiC) - https://toxiicdev.net
 
