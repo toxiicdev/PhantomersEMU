@@ -4,7 +4,7 @@ using System.Text;
 
 namespace LoginServer
 {
-    class Log
+    public class Log
     {
         private static object section = new object();
         public static void WriteLine(string str)
