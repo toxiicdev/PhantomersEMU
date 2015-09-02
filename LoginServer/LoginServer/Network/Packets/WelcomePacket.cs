@@ -4,7 +4,7 @@ namespace LoginServer.Network.Packets
 {
     public class WelcomePacket : OutPacket
     {
-        public WelcomePacket() : base(PacketType.DO_A_LOGIN)
+        public WelcomePacket() : base(PacketType.WELCOME)
         {
             WriteHexString("E71A2512510BFC09");
         }
