@@ -19,9 +19,9 @@ namespace LoginServer
         {
             this.socket = socket;
             this.OnPacketReceived += User_OnPacketReceived;
-            this.Send(new WelcomePacket());
 
             this.socket.BeginReceive(receiveBuffer, 0, receiveBuffer.Length, SocketFlags.None, new AsyncCallback(OnDataReceive), null);
+            this.Send(new WelcomePacket());            
         }
 
         public event EventHandler<PacketReceivedEventArgs> OnPacketReceived;
@@ -77,7 +77,8 @@ namespace LoginServer
             {
                 int receivedLength = socket.EndReceive(iAr);
 
-                if (receivedLength == 0)
+                // Disconnect / Connection loss
+                if (receivedLength == 0) 
                 {
                     Disconnect();
                     return;
@@ -89,6 +90,7 @@ namespace LoginServer
                 // Copy the oldest first if needed.
                 if (cachedBuffer.Length > 0)
                     Array.Copy(cachedBuffer, 0, fullBuffer, 0, cachedBuffer.Length);
+
                 // Add the fresh bytes
                 Array.Copy(receiveBuffer, 0, cachedBuffer, cachedBuffer.Length, receivedLength);
 
