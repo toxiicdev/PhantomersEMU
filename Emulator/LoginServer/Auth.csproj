@@ -38,7 +38,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Enums\PacketType.cs" />
-    <Compile Include="Log.cs" />
     <Compile Include="Network\InPacket.cs" />
     <Compile Include="Network\OutPacket.cs" />
     <Compile Include="Network\PacketReceivedEventArgs.cs" />
